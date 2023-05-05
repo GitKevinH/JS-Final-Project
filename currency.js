@@ -55,7 +55,7 @@ async function addSymbols(){    // adds all symbols from fetched symbol list int
     });
 
 }
-//addSymbols();
+addSymbols();
 
 //convert currency
 
@@ -98,20 +98,53 @@ async function getHistorical(base, target){
         
         
         let minusNinety = new Date();
-        minusNinety.setDate(minusNinety.getDate() - 90);
+        minusNinety.setDate(minusNinety.getDate() - 7);
         const formatedNinety = minusNinety.toISOString().slice(0, 10);
         //console.log(formatedNinety);
 
-    let result = await getAPI(`https://api.apilayer.com/exchangerates_data/timeseries?start_date=${formatedToday}&end_date=${formatedToday}`);
-    //cleanUp("historical-rates-container")
+    let result = await getAPI(`https://api.apilayer.com/exchangerates_data/timeseries?start_date=${formatedNinety}&end_date=${formatedToday}&base=${base}&symbols=${target}`);
+    cleanUp("historical-rates-container")   
 
-    console.log(result.rates);
-
-
+    const rates = result.rates;
+    const rateKeys = Object.keys(rates);
+    
+    for (let i = 0; i < rateKeys.length; i++) {    //loops through the array created above, to print out the keys and values 
+      const date = rateKeys[i];
+      const current = rates[date];
+      
+      for (const curr in current) {
+        const value = current[curr];
+             let element = document.getElementById("historical-rates-container");
+            let newElement = document.createElement("p");
+            let textNode = document.createTextNode(`On ${date}, if you had 1 ${base} it would be worth ${value} ${target}`);
+            newElement.appendChild(textNode);
+            element.appendChild(newElement);
+      }
+    }
 }
 
-getHistorical();
 
+//add to favorites
+
+function createFaves() {
+    let base = document.querySelector("#base-currency");
+    let baseCurr = base.value;
+  
+    let target = document.querySelector("#target-currency");
+    let targetCurr = target.value;
+    
+    let ul = document.querySelector("ul");
+    let newButton = document.createElement("button");
+    newButton.innerHTML = `${baseCurr}/${targetCurr}`;
+    newButton.onclick = function () {
+      base.value = baseCurr;
+      target.value = targetCurr;
+      convertValues();
+    };
+
+    ul.appendChild(newButton);
+  
+  }
 
 
 
@@ -119,30 +152,38 @@ getHistorical();
 
 //event listeners
 
-// document.querySelector("#base-currency").addEventListener("change", function() {
-//     convertValues();
+document.querySelector("#base-currency").addEventListener("change", function() {
+    convertValues();
 
 
-// });
+});
 
-// document.querySelector("#target-currency").addEventListener("change", function() {
-//     convertValues();
+document.querySelector("#target-currency").addEventListener("change", function() {
+    convertValues();
 
-// });
+});
 
-// document.querySelector("#amount").addEventListener("change", function() {
-//     convertValues();
+document.querySelector("#amount").addEventListener("change", function() {
+    convertValues();
 
-// });
+});
 
-// document.querySelector("#historical-rates").addEventListener("click", function() {
-    // let base = document.querySelector("#base-currency");
-    // let baseCurr = base.value;
+document.querySelector("#save-favorite").addEventListener("click", function() {
+    createFaves();
 
-    // let target = document.querySelector("#target-currency");
-    // let targetCurr = target.value;
+});
 
-// });
+document.querySelector("#historical-rates").addEventListener("click", function() {
+    let base = document.querySelector("#base-currency");
+    let baseCurr = base.value;
+
+    let target = document.querySelector("#target-currency");
+    let targetCurr = target.value;
+
+    getHistorical(baseCurr, targetCurr);
+});
+
+
 
 
 
