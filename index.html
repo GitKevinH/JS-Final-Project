@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Currency Converter</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Currency Converter</h1>
+    <h4>
+      *Note: depending on how the busy the requested server is, there may be a
+      delay in execution. Please give the application up to a minute to resolve.
+    </h4>
     <div class="converter">
-        <label for="base-currency">Base Currency:</label>
-        <select id="base-currency"></select>
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" value="1" min="0">
-        <label for="target-currency">Target Currency:</label>
-        <select id="target-currency"></select>
-        <p>Converted Amount: <span id="converted-amount"></span></p>
-        <button id="save-favorite">Save Favorite</button>
-        <div id="favorite-currency-pairs">
-            <p>Press any of your saved favorites buttons to quickly compare currencies</p>
-            <ul></ul>
-        </div>
-        <button id="historical-rates">View Historical Rates (Past 7 days)</button>
-        <div id="historical-rates-container"></div>
-        
+      <label for="base-currency">Base Currency:</label>
+      <select id="base-currency"></select>
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" value="1" min="0" />
+      <label for="target-currency">Target Currency:</label>
+      <select id="target-currency"></select>
+      <p>Converted Amount: <span id="converted-amount"></span></p>
+      <button id="save-favorite">Save Favorite</button>
+      <div id="favorite-currency-pairs">
+        <p>
+          Press any of your saved favorites buttons to quickly compare
+          currencies
+        </p>
+        <ul></ul>
+      </div>
+      <button id="historical-rates">View Historical Rates (Past 7 days)</button>
+      <div id="historical-rates-container"></div>
     </div>
-    
+
     <script src="currency.js"></script>
-</body>
+  </body>
 </html>
